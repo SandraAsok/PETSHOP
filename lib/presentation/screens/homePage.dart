@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petshop/presentation/screens/petdetailPage.dart';
+import 'package:petshop/presentation/screens/petsList.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:petshop/presentation/widgets/homedrawer.dart';
 import 'package:petshop/utilities/utility.dart';
@@ -27,10 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<Map<String, String>> petList = [
-    {'name': 'Dogs/Puppies', 'image': 'assets/images/dog1.png'},
-    {'name': 'Cats', 'image': 'assets/images/cat1.png'},
-    {'name': 'Rabbits', 'image': 'assets/images/rabbit1.png'},
-    {'name': 'Birds', 'image': 'assets/images/bird1.png'},
+    {'name': 'Dog', 'image': 'assets/images/dog1.png'},
+    {'name': 'Cat', 'image': 'assets/images/cat1.png'},
+    {'name': 'Rabbit', 'image': 'assets/images/rabbit1.png'},
+    {'name': 'Bird', 'image': 'assets/images/bird1.png'},
     {'name': 'Fish', 'image': 'assets/images/fish1.png'},
   ];
 
@@ -147,10 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) => PetDetailPage(
-                                  name: "dog",
-                                  image: "assets/images/dog1.png",
-                                  description: "description"),
+                              builder: (context) =>
+                                  PetsListScreen(category: pet['name']!),
                               fullscreenDialog: true));
                     },
                     child: Container(

@@ -1,18 +1,67 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petshop/utilities/utility.dart';
+import 'package:http/http.dart' as http;
 
-class PetDetailPage extends StatelessWidget {
-  final String name;
-  final String image;
-  final String description;
+class PetDetailPage extends StatefulWidget {
+  final String PetId;
 
   const PetDetailPage({
     super.key,
-    required this.name,
-    required this.image,
-    required this.description,
+    required this.PetId,
   });
+
+  @override
+  State<PetDetailPage> createState() => _PetDetailPageState();
+}
+
+class _PetDetailPageState extends State<PetDetailPage> {
+  String name = '';
+
+  String description = '';
+
+  String image = '';
+
+  String breed = '';
+
+  String category = '';
+
+  String age = '';
+
+  String location = '';
+
+  String vaccinated = '';
+
+  Future<Map<String, dynamic>> getPetById(int id) async {
+    final response =
+        await http.get(Uri.parse('http://192.168.43.201:5172/api/Pets/$id'));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else if (response.statusCode == 404) {
+      throw Exception('Pet not found');
+    } else {
+      throw Exception('Failed to load pet details');
+    }
+  }
+
+  void fetchPetDetails(int id) async {
+    try {
+      Map<String, dynamic> pet = await getPetById(id);
+      name = pet['PetName'] ?? 'Unknown';
+      description = pet['Description'] ?? 'No description available';
+      image = pet['ImageUrl'];
+      breed = pet['Breed'] ?? 'Unknown';
+      category = pet['Category'] ?? 'Unknown';
+      age = pet['AgeYears'] ?? 'Unknown';
+      location = pet['Location'] ?? 'Unknown';
+      vaccinated = pet['Vaccinated'] ?? 'Unknown';
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +135,7 @@ class PetDetailPage extends StatelessWidget {
                       const Icon(Icons.cake, color: Colors.green),
                       width10,
                       Text(
-                        "Age: 2 years",
+                        "Age: $age years",
                         style: GoogleFonts.poppins(fontSize: 14),
                       ),
                     ],
@@ -108,7 +157,7 @@ class PetDetailPage extends StatelessWidget {
                       const Icon(Icons.location_on, color: Colors.green),
                       width10,
                       Text(
-                        "Location: Pet Shelter, Mumbai",
+                        "Location: $location",
                         style: GoogleFonts.poppins(fontSize: 14),
                       ),
                     ],
@@ -119,7 +168,7 @@ class PetDetailPage extends StatelessWidget {
                       const Icon(Icons.location_on, color: Colors.green),
                       width10,
                       Text(
-                        "Vaccinated: Yes",
+                        "Vaccinated: $vaccinated",
                         style: GoogleFonts.poppins(fontSize: 14),
                       ),
                     ],
