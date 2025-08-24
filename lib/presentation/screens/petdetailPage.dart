@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petshop/utilities/utility.dart';
@@ -33,6 +34,7 @@ class _PetDetailPageState extends State<PetDetailPage> {
   String location = '';
 
   String vaccinated = '';
+  bool isAdopted = false;
 
   Future<Map<String, dynamic>> getPetById(int id) async {
     final response =
@@ -58,9 +60,29 @@ class _PetDetailPageState extends State<PetDetailPage> {
       age = pet['AgeYears'] ?? 'Unknown';
       location = pet['Location'] ?? 'Unknown';
       vaccinated = pet['Vaccinated'] ?? 'Unknown';
+      isAdopted = pet['IsAdopted'] ?? false;
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> sendAdoptionRequest(String petId, String adopterContact) async {
+    final url = Uri.parse(
+        'http://192.168.43.201:5172/api/Pets/$petId/adopt?adoptercontact=$adopterContact');
+
+    final response = await http.post(url);
+
+    if (response.statusCode == 200) {
+      print('Adoption request sent successfully: ${response.body}');
+    } else {
+      throw Exception('Failed to send adoption request: ${response.body}');
+    }
+  }
+
+  @override
+  void initState() {
+    fetchPetDetails(int.parse(widget.PetId));
+    super.initState();
   }
 
   @override
@@ -191,17 +213,17 @@ class _PetDetailPageState extends State<PetDetailPage> {
                 style: ButtonStyle(
                     minimumSize: MaterialStatePropertyAll(Size(200, 55)),
                     elevation: MaterialStatePropertyAll(5),
-                    backgroundColor: MaterialStatePropertyAll(greenshade)),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Adoption Request Sent! 🐾"),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                },
+                    backgroundColor: isAdopted
+                        ? MaterialStatePropertyAll(Colors.grey)
+                        : MaterialStatePropertyAll(greenshade)),
+                onPressed: isAdopted
+                    ? () {}
+                    : () {
+                        sendAdoptionRequest(widget.PetId,
+                            FirebaseAuth.instance.currentUser!.email!);
+                      },
                 label: Text(
-                  "Adopt Me",
+                  isAdopted ? "Adopted" : "Adopt Me",
                   style: GoogleFonts.caveatBrush(
                     fontSize: 20,
                     color: Colors.black,
