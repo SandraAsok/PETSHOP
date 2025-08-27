@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -5,8 +6,7 @@ import 'dart:convert';
 import 'package:petshop/utilities/utility.dart';
 
 class MyPetsScreen extends StatefulWidget {
-  final String email;
-  const MyPetsScreen({super.key, required this.email});
+  const MyPetsScreen({super.key});
 
   @override
   _MyPetsScreenState createState() => _MyPetsScreenState();
@@ -15,9 +15,10 @@ class MyPetsScreen extends StatefulWidget {
 class _MyPetsScreenState extends State<MyPetsScreen> {
   late Future<List<dynamic>> petsFuture;
 
-  Future<List<dynamic>> getUserPets(String email) async {
+  Future<List<dynamic>> getUserPets() async {
+    final email = await FirebaseAuth.instance.currentUser!.email!;
     final response = await http.get(
-      Uri.parse('http://192.168.43.201:5172/api/pets/user/$email'),
+      Uri.parse('http://192.168.43.201:5172/api/Pets/user/$email'),
     );
 
     if (response.statusCode == 200) {
@@ -29,7 +30,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
 
   Future<void> deletePet(int petId) async {
     final url = Uri.parse(
-        "http://<YOUR_API_BASE_URL>/api/pets/$petId"); // Replace with your API base URL
+        "http://192.168.43.201:5172/api/Pets/$petId"); // Replace with your API base URL
 
     try {
       final response = await http.delete(url);
@@ -37,7 +38,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         setState(() {
-          petsFuture = getUserPets(widget.email);
+          petsFuture = getUserPets();
         });
         showDialog(
           context: context,
@@ -62,7 +63,7 @@ class _MyPetsScreenState extends State<MyPetsScreen> {
   @override
   void initState() {
     super.initState();
-    petsFuture = getUserPets(widget.email);
+    petsFuture = getUserPets();
   }
 
   @override

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petshop/presentation/functions/firebase_functions.dart';
+import 'package:petshop/presentation/screens/adoptedList.dart';
+import 'package:petshop/presentation/screens/mypets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({
@@ -26,43 +29,56 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.home, color: Colors.green),
-            title: Text('Home'),
+            leading: const Icon(Icons.home, color: Colors.green),
+            title: const Text('Home'),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: Icon(Icons.history, color: Colors.green),
-            title: Text('My Additions'),
+            leading: const Icon(Icons.history, color: Colors.green),
+            title: const Text('My Additions'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyPetsScreen()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.pets, color: Colors.green),
+            title: const Text('My Adoptions'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AdoptedPetsScreen()));
+            },
+          ),
+          ListTile(
+              leading: const Icon(Icons.help, color: Colors.green),
+              title: const Text('Help & Support'),
+              onTap: () async {
+                final adminEmail = 'apphiveofficial@gmail.com';
+                final subject =
+                    Uri.encodeComponent('Inquiry about FurEver Home App');
+                final body = Uri.encodeComponent('Enter your message here...');
+                final mailtoUrl =
+                    'mailto:$adminEmail?subject=$subject&body=$body';
+                if (await canLaunchUrl(Uri.parse(mailtoUrl))) {
+                  await launchUrl(Uri.parse(mailtoUrl));
+                }
+              }),
+          ListTile(
+            leading: const Icon(Icons.privacy_tip, color: Colors.green),
+            title: const Text('Privacy Policy'),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: Icon(Icons.pets, color: Colors.green),
-            title: Text('My Adoptions'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.help, color: Colors.green),
-            title: Text('Help & Support'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.privacy_tip, color: Colors.green),
-            title: Text('Privacy Policy'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.logout, color: Colors.green),
-            title: Text('Logout'),
+            leading: const Icon(Icons.logout, color: Colors.green),
+            title: const Text('Logout'),
             onTap: () {
               signout(context);
             },
