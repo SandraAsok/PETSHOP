@@ -55,20 +55,20 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  labelText: "Search by location",
-                  labelStyle: GoogleFonts.caveatBrush(fontSize: 22),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.green),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.green),
-                  ),
-                ),
-              ),
+              // TextField(
+              //   decoration: InputDecoration(
+              //     labelText: "Search by location",
+              //     labelStyle: GoogleFonts.caveatBrush(fontSize: 22),
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //       borderSide: const BorderSide(color: Colors.green),
+              //     ),
+              //     focusedBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //       borderSide: const BorderSide(color: Colors.green),
+              //     ),
+              //   ),
+              // ),
               height10,
               Row(
                 children: [
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           CupertinoPageRoute(
                               builder: (context) =>
-                                  PetsListScreen(category: pet['name']!),
+                                  PetsListScreen(category: pet['PetName']!),
                               fullscreenDialog: true));
                     },
                     child: Container(
@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.all(10.0),
                             child: Center(
                               child: Text(
-                                pet['name']!,
+                                pet['PetName']!,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,

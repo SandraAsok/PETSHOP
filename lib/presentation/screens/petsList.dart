@@ -86,8 +86,8 @@ class _PetsListScreenState extends State<PetsListScreen> {
                       itemCount: pets.length,
                       itemBuilder: (context, index) {
                         final pet = pets[index];
-                        final imageUrl = pet['image'] ?? ''; // safe access
-                        final petName = pet['name'] ?? 'Unknown';
+                        final ImageUrl = pet['image'] ?? ''; // safe access
+                        final petName = pet['PetName'] ?? 'Unknown';
 
                         return GestureDetector(
                           onTap: () {
@@ -105,9 +105,9 @@ class _PetsListScreenState extends State<PetsListScreen> {
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.vertical(
                                         top: Radius.circular(12)),
-                                    child: imageUrl.isNotEmpty
+                                    child: ImageUrl.isNotEmpty
                                         ? Image.network(
-                                            imageUrl,
+                                            ImageUrl,
                                             fit: BoxFit.cover,
                                             errorBuilder: (context, error,
                                                     stackTrace) =>

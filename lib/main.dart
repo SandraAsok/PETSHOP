@@ -30,7 +30,7 @@ class _SplashState extends State<Splash> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final isEmail = prefs.getBool('email');
     setState(() {
-      finalEmail = isEmail!;
+      finalEmail = isEmail ?? false;
     });
   }
 

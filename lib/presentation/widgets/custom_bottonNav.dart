@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:petshop/presentation/screens/addPet.dart';
+import 'package:petshop/presentation/screens/allpetsList.dart';
 import 'package:petshop/presentation/screens/homePage.dart';
-import 'package:petshop/presentation/screens/shoppingPage.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -17,10 +17,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    ShoppingScreen(),
     const AddPetScreen(),
-    const Center(child: Text('Saved')),
-    const Center(child: Text('Profile')),
+    const GetAllPetsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -76,24 +74,14 @@ class CustomBottomNavBar extends StatelessWidget {
               onTap: () => onItemTapped(0),
             ),
             _BottomNavItem(
-              icon: Icons.shopping_bag_outlined,
-              isActive: currentIndex == 1,
-              onTap: () => onItemTapped(1),
-            ),
-            _BottomNavItem(
               icon: Icons.add,
               isActive: currentIndex == 2,
               onTap: () => onItemTapped(2),
             ),
             _BottomNavItem(
-              icon: Icons.bookmark_outline,
-              isActive: currentIndex == 3,
-              onTap: () => onItemTapped(3),
-            ),
-            _BottomNavItem(
-              icon: Icons.person_outline,
-              isActive: currentIndex == 4,
-              onTap: () => onItemTapped(4),
+              icon: Icons.pets,
+              isActive: currentIndex == 1,
+              onTap: () => onItemTapped(1),
             ),
           ],
         ),

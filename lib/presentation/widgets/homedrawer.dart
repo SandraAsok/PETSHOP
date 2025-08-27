@@ -33,15 +33,29 @@ class HomeDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.person, color: Colors.green),
-            title: Text('Profile'),
+            leading: Icon(Icons.history, color: Colors.green),
+            title: Text('My Additions'),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings, color: Colors.green),
-            title: Text('Settings'),
+            leading: Icon(Icons.pets, color: Colors.green),
+            title: Text('My Adoptions'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.help, color: Colors.green),
+            title: Text('Help & Support'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.privacy_tip, color: Colors.green),
+            title: Text('Privacy Policy'),
             onTap: () {
               Navigator.pop(context);
             },

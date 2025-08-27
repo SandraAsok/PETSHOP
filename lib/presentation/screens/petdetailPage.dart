@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petshop/utilities/utility.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class PetDetailPage extends StatefulWidget {
   final String PetId;
@@ -35,6 +37,7 @@ class _PetDetailPageState extends State<PetDetailPage> {
 
   String vaccinated = '';
   bool isAdopted = false;
+  String ownerContact = '';
 
   Future<Map<String, dynamic>> getPetById(int id) async {
     final response =
@@ -60,6 +63,7 @@ class _PetDetailPageState extends State<PetDetailPage> {
       age = pet['AgeYears'] ?? 'Unknown';
       location = pet['Location'] ?? 'Unknown';
       vaccinated = pet['Vaccinated'] ?? 'Unknown';
+      ownerContact = pet['OwnerContact'] ?? 'Unknown';
       isAdopted = pet['IsAdopted'] ?? false;
     } catch (e) {
       print(e);
@@ -73,7 +77,23 @@ class _PetDetailPageState extends State<PetDetailPage> {
     final response = await http.post(url);
 
     if (response.statusCode == 200) {
-      print('Adoption request sent successfully: ${response.body}');
+      log('Adoption request sent successfully: ${response.body}');
+      showDialog(
+          context: context,
+          builder: (context) =>
+              SuccessAlert(mssg: "Adoption request sent successfully!"));
+      setState(() {
+        isAdopted = true;
+      });
+      final Uri launchUri = Uri(
+        scheme: 'sms',
+        path: ownerContact,
+        queryParameters: {
+          'body':
+              'I am interested in adopting $name.Please check Furever App for more details! Feel free to Contact: $adopterContact'
+        },
+      );
+      await launchUrl(launchUri);
     } else {
       throw Exception('Failed to send adoption request: ${response.body}');
     }

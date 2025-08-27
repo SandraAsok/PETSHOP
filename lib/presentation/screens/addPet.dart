@@ -52,7 +52,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
         "ownerContact": contactNumber,
         "breed": breed,
         "category": getCategoryName(categoryId),
-        "imageUrl": imageFile!.path,
+        "ImageUrl": imageFile!.path,
         "vaccinated": isVaccinated.toString(),
         "description": description,
         "ageYears": age.toString(),
